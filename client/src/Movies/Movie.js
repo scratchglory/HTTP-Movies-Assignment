@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRouteMatch } from 'react-router-dom';
-import MovieCard from './MovieCard';
+// Must add UPDATE button
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouteMatch } from "react-router-dom";
+import MovieCard from "./MovieCard";
 
-function Movie({ addToSavedList }) {
+function Movie(props, { addToSavedList }) {
   const [movie, setMovie] = useState(null);
   const match = useRouteMatch();
 
@@ -11,7 +12,7 @@ function Movie({ addToSavedList }) {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(res => setMovie(res.data))
-      .catch(err => console.log(err.response));
+      .catch(err => console.log("FETCH MOVIE ERR", err.response));
   };
 
   const saveMovie = () => {
@@ -26,13 +27,20 @@ function Movie({ addToSavedList }) {
     return <div>Loading movie information...</div>;
   }
 
+  console.log("MOVIE props", props);
   return (
-    <div className='save-wrapper'>
+    <div className="save-wrapper">
       <MovieCard movie={movie} />
-
-      <div className='save-button' onClick={saveMovie}>
+      <div className="save-button" onClick={saveMovie}>
         Save
       </div>
+      {/* UPDATE BUTTON */}
+      <button
+        className="update-button"
+        onClick={() => props.history.push(`/update-movie/${movie.id}`)}
+      >
+        UPDATE
+      </button>
     </div>
   );
 }
