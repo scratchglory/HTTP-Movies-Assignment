@@ -1,7 +1,7 @@
 // Must add UPDATE button
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
 
 function Movie(props, { addToSavedList }) {
@@ -9,6 +9,8 @@ function Movie(props, { addToSavedList }) {
   const match = useRouteMatch();
 
   const fetchMovie = id => {
+    console.log("FETCHMOVIE PROPS", props);
+    console.log("FETCHMOVIE ID", id);
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(res => setMovie(res.data))
@@ -17,6 +19,18 @@ function Movie(props, { addToSavedList }) {
 
   const saveMovie = () => {
     addToSavedList(movie);
+  };
+
+  const deleteMovie = id => {
+    axios
+      .delete(`http://localhost:5000/api/movies/${id}`)
+      .then(res => {
+        // console.log("DELETE RES:", res);
+        props.history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -35,11 +49,18 @@ function Movie(props, { addToSavedList }) {
         Save
       </div>
       {/* UPDATE BUTTON */}
-      <button
+      <Link
         className="update-button"
-        onClick={() => props.history.push(`/update-movie/${movie.id}`)}
+        // onClick={() => props.history.push(`/update-movie/${movie.id}`)}
+        to={`/update-movie/${props.match.params.id}`}
       >
         UPDATE
+      </Link>
+      <button
+        className="delete-button"
+        onClick={() => deleteMovie(props.match.params.id)}
+      >
+        Delete
       </button>
     </div>
   );

@@ -30,9 +30,11 @@ const UpdateForm = props => {
 
   // CHANGE HANDLERS
   const changeHandler = e => {
-    // e.persist();
+    let value = e.target.value;
     if (e.target.name === "stars") {
       setMovie({ ...movie, stars: e.target.value.split(",") });
+    } else {
+      setMovie({ ...movie, [e.target.name]: value });
     }
   };
 
@@ -46,6 +48,7 @@ const UpdateForm = props => {
         props.updateMovie(res.data);
       })
       .catch(err => console.log("UF ERROR:", err));
+    window.location.href = `/movies/${movie.id}`;
   };
 
   // returning the input values
