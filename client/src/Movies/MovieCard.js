@@ -1,21 +1,6 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useRouteMatch } from "react-router-dom";
+import React from "react";
 
 const MovieCard = props => {
-  //   console.log("MOVIECARD PROPS", props.movie);
-  //   const [movie, setMovie] = useState(null);
-  //   const match = useRouteMatch();
-
-  //   const deleteMovie = id => {
-  //     console.log("ID", id);
-  //     axios
-  //       .delete(`http://localhost:5000/api/movies/${id}`)
-  //       //   reroute to the front page after delete
-  //       .then(res => console.log("DELETE RES", res))
-  //       .catch(err => console.log("DELETE ERR", err));
-  //   };
-
   const { title, director, metascore, stars } = props.movie;
   return (
     <div className="movie-card">
@@ -33,10 +18,6 @@ const MovieCard = props => {
           {star}
         </div>
       ))}
-
-      {/* <button className="delete-button" onClick={deleteMovie(props.movie.id)}>
-        DELETE
-      </button> */}
     </div>
   );
 };
